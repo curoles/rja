@@ -3,7 +3,7 @@
 # BASH script to run basic Cargo commands.
 # Author: Igor Lesik 2021
 
-COMMANDS="help build run test bench doc release clean layout"
+COMMANDS="help build run check test bench doc release clean layout"
 
 # For auto completion with TAB: source ./prj
 complete -W "${COMMANDS}" ./prj
@@ -20,15 +20,21 @@ case "$1" in
         ;;
     build)
         shift
-        cargo build -j 8 ${OPT_TARGET_DIR} $@
+        cargo build ${OPT_TARGET_DIR} $@
         ;;
     release)
         shift
-        cargo build --release -j 8 ${OPT_TARGET_DIR} $@
+        cargo build --release ${OPT_TARGET_DIR} $@
         ;;
     run)
         shift
         cargo run ${OPT_TARGET_DIR} $@
+        ;;
+    check)
+        shift
+        rustup update
+        cargo check ${OPT_TARGET_DIR} $@
+        cargo clippy ${OPT_TARGET_DIR} $@
         ;;
     test)
         shift
@@ -40,7 +46,7 @@ case "$1" in
         ;;
     doc)
         shift
-        cargo doc -j 8 ${OPT_TARGET_DIR} $@
+        cargo doc ${OPT_TARGET_DIR} $@
         echo "Now you can do:"
         echo "firefox ${BUILD_DIR}/doc/rja/index.html &"
         ;;

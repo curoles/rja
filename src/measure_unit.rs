@@ -18,11 +18,12 @@ pub enum ByteSize {
 /// const KIB : (u64, &str) = measure_unit::BYTE_SIZE[0];
 /// println!("{} = {}", KIB.1,  KIB.0);
 /// ```
+#[allow(clippy::all)]
 pub
 const BYTE_SIZE: [(u64, &str); 6] = {
     let mut i = 0;
     [
-        (1 << (10 * { i += 1; i }), "KiB"),
+        (1 << (10 * { let ii = i + 1; i = ii; ii }), "KiB"),
         (1 << (10 * { i += 1; i }), "MiB"),
         (1 << (10 * { i += 1; i }), "GiB"),
         (1 << (10 * { i += 1; i }), "TiB"),
